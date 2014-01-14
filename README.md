@@ -1,12 +1,16 @@
 # Math in genealogy
 
-This software can help you create an updated SQLite3 database containing information from the Math in Genealogy website. After the database has been created (see Section 2) you can browse it using an SQLite 3 client. The schema described in Section 2.
+This Python program creates an updated SQLite3 database containing information from The Mathematics Genealogy Project website. After the database has been created (see Section 2) you can browse it using an SQLite 3 client. The schema described in Section 2.
+
+In the *db* directory, you'll find a snapshot of the database (*db/genealogy.db*), that was complete as of december 2013.
 
 On a Mac, the database ('db/genealogy.db') can be browsed using the *sqlite3* program:
 
 ```
 $ sqlite3 db/genealogy.db
 ```
+
+See [sqlite3 instructions](http://www.sqlite.org/sqlite.html) for using this commandline SQLite client program.
 
 ## 1: Script usage
 
