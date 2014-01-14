@@ -1,23 +1,23 @@
 # Export SQLite database to PostgreSQL
 
-Exporting the database from SQLite to PostgreSQL
+1) Create SQLite dump file, and import into PostgreSQL:
 
 ```
 sqlite3 genealogy.db .dump > dump.sql
 psql -d <DATABASENAME> -U <USERNAME> -W < dump.sql
 ```
 
-In the SQLIte database, geographical points are represented with an *x* and *y* column (should properly be called long and lat).
-It is easy convert these two floating point columns into a proper GEOMETRY column in PostgreSQL:
+2) Change representation of geographical locations. In the plain SQLIte database, geographical points are represented with an *x* and *y* column (should properly be called long and lat).
+You can replace these columns with a proper GEOMETRY column in PostgreSQL:
  
 ```sql
--- Start by adding PostGIS extensions if not already installed
+-- Add PostGIS extension if not already installed
 create extension postgis;
 
--- Add column
+-- Add GEOMETRY column
 ALTER TABLE school_location ADD COLUMN wkb_geometry GEOMETRY;
 
--- Write a point value into the GEOMETRY column, using the *x*, *y* and *srid* columns
+-- Update GEOMETRY column with point values
 UPDATE school_location
 SET wkb_geometry = ST_SetSRID(ST_MakePoint(x,y), srid); 
 
