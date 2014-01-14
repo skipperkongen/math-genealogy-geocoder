@@ -1,6 +1,6 @@
 # Creating a time lapse animation
 
-Create a table in PostgreSQL for storing denormalized data:
+Create a table in PostgreSQL for storing denormalized data appropriate for creating an ESRI Shapefile. Latter the Shapefile will be imported into CartoDB (if your account is big enough):
 
 ```sql
 CREATE TABLE time_lapse (
@@ -42,3 +42,19 @@ WHERE
     ds.school_id = s.id AND
     s.id = l.school_id;
 ```
+
+Delete this one entry which is really old:
+
+```
+DELETE FROM time_lapse WHERE year < '1000-01-01';
+```
+
+
+Create an ESRI Shapefile (zipped) from the new table:
+```
+$ ogr2ogr mathgenealogy-timelapse.shp PG:"host=localhost user=xxxxx password=xxxxx dbname=mathgenealogy" -sql 'select * from time_lapse' -a_srs 'epsg:4326'
+$ zip mathgenealogy-timelapse.zip mathgenealogy-timelapse.*
+```
+
+Upload this file to CartoDB using the create new table dialogue... create time lapse with the Torque visualization option.
+
